@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600'
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600'
 const HOW_IMAGE = 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800'
 
 const stats = [
@@ -36,74 +36,85 @@ export default function Landing() {
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.55)' }} />
+        <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.65)' }} />
         <div className="relative z-10 text-center text-white px-4 max-w-3xl mx-auto">
           <h1
-            className="text-white leading-tight tracking-tight mb-4"
-            style={{ fontSize: '3.5rem', fontWeight: 800 }}
+            className="text-white leading-none mb-5"
+            style={{ fontSize: '4rem', fontWeight: 900, letterSpacing: '-3px' }}
           >
             CasaSegura
           </h1>
-          <p className="text-gray-200 text-xl mb-10 max-w-xl mx-auto">
+          <p
+            className="mb-10 max-w-lg mx-auto"
+            style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.85)' }}
+          >
             Don't sign anything until CasaSegura checks it first
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/listing"
-              className="px-8 py-4 bg-white text-gray-900 font-semibold text-base hover:bg-gray-100 transition"
-              style={{ borderRadius: '6px' }}
+              className="px-8 py-4 bg-white text-gray-900 font-semibold text-sm hover:bg-gray-100 transition"
+              style={{ borderRadius: '0px' }}
             >
               Scan a Listing
             </Link>
             <Link
               to="/lease"
-              className="px-8 py-4 font-semibold text-base text-white border-2 border-white hover:bg-white hover:text-gray-900 transition"
-              style={{ borderRadius: '6px' }}
+              className="px-8 py-4 font-semibold text-sm text-white border border-white hover:bg-white hover:text-gray-900 transition"
+              style={{ borderRadius: '0px', backgroundColor: 'transparent' }}
             >
               Analyze my Lease
             </Link>
           </div>
+          <p className="mt-6 text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            Free · No account required · Built for Michigan renters
+          </p>
         </div>
       </section>
 
       {/* STATS */}
-      <section style={{ backgroundColor: '#f3f4f6' }} className="py-12 px-4">
+      <section className="bg-white py-12 px-4" style={{ borderBottom: '1px solid #eee' }}>
         <div className="max-w-4xl mx-auto grid grid-cols-3 gap-8 text-center">
           {stats.map(({ value, label }) => (
             <div key={label}>
-              <p className="text-3xl font-extrabold" style={{ color: '#1a365d' }}>{value}</p>
-              <p className="text-gray-500 text-sm mt-1">{label}</p>
+              <p className="text-3xl font-black text-gray-900" style={{ letterSpacing: '-1px' }}>{value}</p>
+              <p className="text-gray-400 text-sm mt-1">{label}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+      <section className="bg-white py-20 px-4">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-16 items-center">
           <div className="md:w-1/2">
             <img
               src={HOW_IMAGE}
               alt="Person reviewing documents"
               className="w-full h-80 object-cover"
-              style={{ borderRadius: '6px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+              style={{ borderRadius: '0px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}
             />
           </div>
           <div className="md:w-1/2">
-            <h2 className="text-2xl font-bold mb-2" style={{ color: '#1a365d' }}>How it works</h2>
-            <p className="text-gray-500 mb-8">Three steps to protect yourself</p>
-            <div className="flex flex-col gap-6">
+            <h2
+              className="text-2xl font-bold text-gray-900 mb-2"
+              style={{ letterSpacing: '-1px' }}
+            >
+              How it works
+            </h2>
+            <p className="text-gray-400 text-sm mb-10">Three steps to protect yourself</p>
+            <div className="flex flex-col gap-8">
               {steps.map(({ step, title, desc }) => (
-                <div key={step} className="flex gap-4 items-start">
-                  <div
-                    className="flex-shrink-0 w-10 h-10 flex items-center justify-center text-white font-bold text-sm"
-                    style={{ backgroundColor: '#1a365d', borderRadius: '6px' }}
+                <div key={step} className="flex gap-5 items-start relative">
+                  <span
+                    className="absolute -left-1 top-0 font-black select-none pointer-events-none leading-none"
+                    style={{ fontSize: '4rem', color: '#f0f0f0', lineHeight: 1, zIndex: 0 }}
                   >
                     {step}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-800">{title}</h3>
-                    <p className="text-gray-500 text-sm mt-1">{desc}</p>
+                  </span>
+                  <div className="relative z-10 pl-12">
+                    <h3 className="font-semibold text-gray-900 mb-1">{title}</h3>
+                    <p className="text-gray-400 text-sm">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -113,17 +124,22 @@ export default function Landing() {
       </section>
 
       {/* KNOW YOUR RIGHTS */}
-      <section className="px-4 py-16" style={{ backgroundColor: '#f3f4f6' }} id="rights">
+      <section className="px-4 py-16" style={{ backgroundColor: '#fafafa', borderTop: '1px solid #eee' }} id="rights">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
             <div>
-              <h2 className="text-2xl font-bold" style={{ color: '#1a365d' }}>Know Your Rights</h2>
-              <p className="text-gray-500 mt-1">Michigan laws that protect you as a tenant</p>
+              <h2
+                className="text-2xl font-bold text-gray-900"
+                style={{ letterSpacing: '-1px' }}
+              >
+                Know Your Rights
+              </h2>
+              <p className="text-gray-400 text-sm mt-1">Michigan laws that protect you as a tenant</p>
             </div>
             <Link
               to="/rights"
-              className="text-sm font-semibold border px-4 py-2 transition hover:bg-gray-800 hover:text-white hover:border-gray-800"
-              style={{ color: '#1a365d', borderColor: '#1a365d', borderRadius: '6px' }}
+              className="text-sm font-semibold text-gray-700 border border-gray-300 px-4 py-2 transition hover:border-gray-700 hover:text-gray-900"
+              style={{ borderRadius: '0px' }}
             >
               Full rights guide →
             </Link>
@@ -132,12 +148,12 @@ export default function Landing() {
             {rights.map(({ icon, title, desc }) => (
               <div
                 key={title}
-                className="bg-white p-5 border border-gray-100 hover:shadow-md transition"
-                style={{ borderRadius: '6px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+                className="bg-white p-5 border border-gray-100 hover:border-gray-200 hover:shadow-sm transition"
+                style={{ borderRadius: '0px' }}
               >
-                <div className="text-3xl mb-3">{icon}</div>
-                <h3 className="font-semibold text-gray-800 mb-1">{title}</h3>
-                <p className="text-gray-500 text-sm">{desc}</p>
+                <div className="text-2xl mb-3">{icon}</div>
+                <h3 className="font-semibold text-gray-900 text-sm mb-1">{title}</h3>
+                <p className="text-gray-400 text-xs leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>

@@ -109,7 +109,7 @@ export default function YourRights() {
             <button
               key={s.id}
               onClick={() => setActive(active === s.id ? null : s.id)}
-              className={`flex items-center gap-3 px-4 py-4 rounded-xl border-2 text-left font-medium transition ${
+              className={`flex items-center gap-3 px-4 py-4 border-2 text-left font-medium transition ${
                 active === s.id
                   ? 'border-primary bg-primary text-white'
                   : 'border-gray-200 bg-white text-gray-800 hover:border-primary hover:bg-blue-50'
@@ -122,7 +122,7 @@ export default function YourRights() {
         </div>
 
         {situation && (
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden animate-fade-in">
+          <div className="bg-white border border-gray-200 shadow-sm overflow-hidden animate-fade-in">
             <div className="bg-primary text-white px-6 py-4">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{situation.icon}</span>
@@ -138,7 +138,7 @@ export default function YourRights() {
               <ol className="space-y-3 mb-6">
                 {situation.steps.map((step, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="w-6 h-6 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="w-6 h-6 bg-primary text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                       {i + 1}
                     </span>
                     <p className="text-sm text-gray-700 leading-relaxed">{step}</p>
@@ -172,7 +172,7 @@ export default function YourRights() {
           </div>
         )}
 
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
+        <div className="mt-8 bg-blue-50 border border-blue-200 p-5 text-sm text-blue-800">
           <strong>Remember:</strong> This information is educational and based on Michigan law. For specific
           cases, consult an attorney or Student Legal Services at your university.
         </div>
