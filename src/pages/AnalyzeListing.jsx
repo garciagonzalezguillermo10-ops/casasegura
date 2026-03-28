@@ -14,7 +14,7 @@ function ScoreCircle({ score }) {
   return (
     <div className="flex flex-col items-center py-4">
       <div
-        className="w-36 h-36 rounded-full flex items-center justify-center shadow-lg mb-4 animate-fade-in"
+        className="w-36 h-36 flex items-center justify-center shadow-lg mb-4 animate-fade-in"
         style={{ backgroundColor: bgRing, border: `6px solid ${color}` }}
       >
         <div className="text-center">
@@ -66,7 +66,7 @@ export default function AnalyzeListing() {
         </p>
 
         <textarea
-          className="w-full border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none bg-white"
+          className="w-full border border-gray-300 p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none bg-white"
           rows={10}
           placeholder="Paste the listing text here... e.g. '2BR apartment $450/mo, owner abroad, contact via email only...'"
           value={text}
@@ -76,7 +76,7 @@ export default function AnalyzeListing() {
         <button
           onClick={analyze}
           disabled={!text.trim() || loading}
-          className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {loading ? 'Scanning...' : 'Scan Listing'}
         </button>
@@ -96,12 +96,12 @@ export default function AnalyzeListing() {
         {result && (
           <div className="mt-8 space-y-6 animate-fade-in">
             {/* Score circle */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm text-center">
+            <div className="bg-white border border-gray-200 p-6 shadow-sm text-center">
               <ScoreCircle score={result.score} />
             </div>
 
             {/* Flags */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="bg-white border border-gray-200 p-6 shadow-sm">
               <h2 className="font-bold text-gray-800 mb-4">
                 Signals detected ({result.flags?.length ?? 0})
               </h2>
@@ -111,7 +111,7 @@ export default function AnalyzeListing() {
                   return (
                     <li
                       key={i}
-                      className={`rounded-lg px-4 py-3 border border-gray-100 border-l-4 ${c.bg} animate-fade-in`}
+                      className={`px-4 py-3 border border-gray-100 border-l-4 ${c.bg} animate-fade-in`}
                       style={{ borderLeftColor: c.borderColor, animationDelay: `${i * 80}ms` }}
                     >
                       <span className={`text-xs font-semibold uppercase tracking-wide block mb-0.5 ${c.labelColor}`}>

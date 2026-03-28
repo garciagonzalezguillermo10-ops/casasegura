@@ -89,7 +89,7 @@ function Summary({ clauses }) {
       ].map(({ key, label, color, bg, border }) => (
         <div
           key={key}
-          className={`${bg} rounded-xl px-5 py-4 text-center min-w-[100px] border-l-4 shadow-sm`}
+          className={`${bg} px-5 py-4 text-center min-w-[100px] border-l-4 shadow-sm`}
           style={{ borderLeftColor: border, borderWidth: '1px', borderLeftWidth: '4px', borderColor: '#e2e8f0' }}
         >
           <div className={`text-3xl font-black ${color}`}>{counts[key]}</div>
@@ -259,7 +259,7 @@ export default function AnalyzeLease() {
         <PdfUploader onText={(t) => { setText(t); setResult(null) }} />
 
         <textarea
-          className="w-full border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none bg-white"
+          className="w-full border border-gray-300 p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none bg-white"
           rows={10}
           placeholder="Paste your rental lease text here..."
           value={text}
@@ -269,7 +269,7 @@ export default function AnalyzeLease() {
         <button
           onClick={analyze}
           disabled={!text.trim() || loading}
-          className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {loading ? 'Analyzing...' : 'Analyze Lease'}
         </button>
@@ -291,7 +291,7 @@ export default function AnalyzeLease() {
                 return (
                   <div
                     key={i}
-                    className="bg-white border border-gray-200 border-l-4 rounded-xl p-5 shadow-sm animate-fade-in"
+                    className="bg-white border border-gray-200 border-l-4 p-5 shadow-sm animate-fade-in"
                     style={{ borderLeftColor: c.borderColor, animationDelay: `${i * 60}ms` }}
                   >
                     <div className="flex items-start justify-between gap-3 mb-2">
@@ -299,7 +299,7 @@ export default function AnalyzeLease() {
                         <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 mt-0.5 ${c.dot}`} />
                         <h3 className="font-semibold text-gray-800 text-sm">{clause.title}</h3>
                       </div>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${c.badge}`}>
+                      <span className={`text-xs font-semibold px-2 py-0.5 flex-shrink-0 ${c.badge}`}>
                         {clause.verdict}
                       </span>
                     </div>
@@ -310,7 +310,7 @@ export default function AnalyzeLease() {
               })}
             </div>
 
-            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800 animate-fade-in">
+            <div className="mt-6 bg-blue-50 border border-blue-200 p-5 text-sm text-blue-800 animate-fade-in">
               <strong>Next steps:</strong> This lease has 2 illegal clauses. Before signing, request in writing
               that they be removed or corrected. If the landlord refuses, contact Student Legal Services or
               Michigan Legal Help.

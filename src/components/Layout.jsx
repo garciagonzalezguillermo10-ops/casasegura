@@ -4,6 +4,7 @@ const navLinks = [
   { to: '/listing', label: 'Scan a Listing' },
   { to: '/lease', label: 'Analyze my Lease' },
   { to: '/rights', label: 'Your Rights' },
+  { to: '/chat', label: 'AI Assistant' },
 ]
 
 export default function Layout({ children }) {

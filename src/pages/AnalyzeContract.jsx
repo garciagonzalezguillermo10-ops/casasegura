@@ -23,7 +23,7 @@ function Summary({ clauses }) {
         { key: 'yellow', label: 'Caution', color: 'text-caution' },
         { key: 'red', label: 'Alert', color: 'text-danger' },
       ].map(({ key, label, color }) => (
-        <div key={key} className="bg-white border border-gray-200 rounded-lg px-4 py-3 text-center min-w-[90px]">
+        <div key={key} className="bg-white border border-gray-200 px-4 py-3 text-center min-w-[90px]">
           <div className={`text-2xl font-bold ${color}`}>{counts[key]}</div>
           <div className="text-xs text-gray-500 mt-0.5">{label}</div>
         </div>
@@ -209,7 +209,7 @@ export default function AnalyzeContract() {
         <PdfUploader onText={(t) => { setText(t); setResult(null) }} />
 
         <textarea
-          className="w-full border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+          className="w-full border border-gray-300 p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           rows={10}
           placeholder="Paste your rental lease text here..."
           value={text}
@@ -219,7 +219,7 @@ export default function AnalyzeContract() {
         <button
           onClick={analyze}
           disabled={!text.trim() || loading}
-          className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {loading ? 'Analyzing...' : 'Analyze Lease'}
         </button>
@@ -247,14 +247,14 @@ export default function AnalyzeContract() {
                 return (
                   <div
                     key={i}
-                    className={`bg-white border border-gray-200 border-l-4 ${c.border} rounded-xl p-5 shadow-sm`}
+                    className={`bg-white border border-gray-200 border-l-4 ${c.border} p-5 shadow-sm`}
                   >
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div className="flex items-center gap-2">
                         <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 mt-0.5 ${c.dot}`} />
                         <h3 className="font-semibold text-gray-800 text-sm">{clause.title}</h3>
                       </div>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${c.badge}`}>
+                      <span className={`text-xs font-semibold px-2 py-0.5 flex-shrink-0 ${c.badge}`}>
                         {clause.verdict}
                       </span>
                     </div>
