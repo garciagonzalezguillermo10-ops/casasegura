@@ -76,5 +76,20 @@ app.post('/api/analyze-contract', async (req, res) => {
   }
 })
 
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+import fs from 'fs'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const distPath = join(__dirname, 'dist')
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath))
+  app.get('*', (req, res) => {
+    res.sendFile(join(distPath, 'index.html'))
+  })
+}
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`CasaSegura API running on http://localhost:${PORT}`))
