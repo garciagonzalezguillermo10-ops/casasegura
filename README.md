@@ -53,7 +53,7 @@ npm run dev
 
 ### Team
 - Guillermo Garcia — Technical lead, backend & API
-- Jose Lag — Tenant rights section, legal content, documentation
+- Jorge Laguna — Tenant rights section, legal content, documentation
 - Mario — Design, presentation & pitch
 
 ### Created for CBC Hackathon Spring 2026 @ University of Michigan
