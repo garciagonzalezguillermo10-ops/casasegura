@@ -3,94 +3,94 @@ import Layout from '../components/Layout'
 
 const SITUATIONS = [
   {
-    id: 'deposito',
-    label: 'No me devuelven el depósito',
+    id: 'deposit',
+    label: "Landlord won't return my deposit",
     icon: '💰',
     steps: [
-      'En Michigan tienes derecho a recibir tu depósito en un plazo de 30 días tras mudarte.',
-      'Si hay descuentos, el arrendador debe enviarte una lista detallada por escrito dentro de ese plazo.',
-      'Envía una carta certificada (con acuse de recibo) exigiendo la devolución. Guarda copia.',
-      'Si no responde en 7 días adicionales, puedes demandar en Small Claims Court por hasta el doble del depósito.',
-      'Documenta siempre el estado del apartamento con fotos y vídeos el día que te vayas.',
+      'In Michigan, your landlord has 30 days after you move out to return your deposit.',
+      'If they make deductions, they must send you an itemized list in writing within that 30-day window.',
+      'Send a certified letter (return receipt) demanding repayment. Keep a copy.',
+      'If no response within 7 additional days, you can sue in Small Claims Court for up to double the deposit.',
+      'Always document the apartment condition with photos/video on move-out day.',
     ],
     resources: [
       { label: 'Michigan Legal Help', url: 'https://michiganlegalhelp.org' },
-      { label: 'Formulario carta certificada (plantilla)', url: null },
-      { label: 'Small Claims Court — coste: $30–$70', url: null },
+      { label: 'Small Claims Court — filing fee: $30–$70', url: null },
+      { label: 'Student Legal Services (check your university)', url: null },
     ],
     law: 'MCL 554.602 — Security Deposits',
   },
   {
-    id: 'reparaciones',
-    label: 'No arreglan nada',
+    id: 'repairs',
+    label: "Landlord won't make repairs",
     icon: '🔧',
     steps: [
-      'El arrendador tiene la obligación legal de mantener la propiedad habitable (agua caliente, calefacción, estructura segura).',
-      'Notifica el problema por escrito (email o carta) y guarda el registro con fecha.',
-      'El arrendador debe repararlo en un plazo razonable — generalmente 7–14 días para problemas no urgentes.',
-      'Si no actúa, puedes retener la renta pagándola al tribunal (escrow) mientras se resuelve.',
-      'Contacta a la ciudad o condado para pedir una inspección oficial de la vivienda.',
+      'Your landlord is legally required to keep the property habitable (hot water, heat, safe structure).',
+      'Notify them of the problem in writing (email or letter) and keep the dated record.',
+      'The landlord must fix it in a reasonable time — typically 7–14 days for non-urgent issues.',
+      'If they don\'t act, you may be able to withhold rent by paying it into escrow through the court.',
+      'Contact your city or county to request an official housing inspection.',
     ],
     resources: [
-      { label: 'Michigan Legal Help — habitabilidad', url: 'https://michiganlegalhelp.org' },
-      { label: 'Departamento de Inspecciones de tu ciudad', url: null },
-      { label: 'Student Legal Services (si eres universitario)', url: null },
+      { label: 'Michigan Legal Help — habitability', url: 'https://michiganlegalhelp.org' },
+      { label: 'Your city\'s Building Inspection Department', url: null },
+      { label: 'Student Legal Services (if enrolled at a university)', url: null },
     ],
     law: 'MCL 554.139 — Implied warranty of habitability',
   },
   {
-    id: 'desahucio',
-    label: 'Me quieren echar sin aviso',
+    id: 'eviction',
+    label: 'Being evicted without notice',
     icon: '🚪',
     steps: [
-      'En Michigan, el arrendador DEBE darte aviso escrito antes de iniciar un desahucio.',
-      'Aviso mínimo según causa: 7 días por impago, 30 días por fin de contrato, 30 días si es mes a mes.',
-      'Hasta que un juez no emita una orden, nadie puede sacarte ni cambiar la cerradura ilegalmente.',
-      'Si te cambian la cerradura o cortan servicios sin orden judicial, es un desahucio ilegal — llama a la policía.',
-      'Acude a la audiencia en el tribunal si recibes una citación. Tienes derecho a defenderte.',
+      'In Michigan, your landlord MUST give written notice before starting eviction proceedings.',
+      'Minimum notice: 7 days for non-payment, 30 days for end of lease or month-to-month.',
+      'Until a judge issues a court order, no one can remove you or change the locks illegally.',
+      'If the landlord changes locks or cuts utilities without a court order, it\'s illegal — call the police.',
+      'Attend any court hearing you receive a summons for. You have the right to defend yourself.',
     ],
     resources: [
       { label: 'Michigan Legal Help — Eviction', url: 'https://michiganlegalhelp.org' },
-      { label: 'Línea de urgencias de vivienda: 211', url: null },
-      { label: 'Asistencia legal gratuita: Legal Aid & Defender', url: null },
+      { label: 'Housing emergency line: 2-1-1', url: null },
+      { label: 'Free legal aid: Legal Aid & Defender', url: null },
     ],
     law: 'MCL 600.5714 — Summary proceedings to recover possession',
   },
   {
-    id: 'discriminacion',
-    label: 'Discriminación',
+    id: 'discrimination',
+    label: 'Discrimination',
     icon: '⚖️',
     steps: [
-      'Es ilegal rechazarte como inquilino por raza, color, religión, origen nacional, sexo, familia o discapacidad.',
-      'Michigan también protege por estado civil y edad (Elliott-Larsen Civil Rights Act).',
-      'Documenta todo: guarda los anuncios, correos, mensajes y cualquier comunicación.',
-      'Presenta una queja ante la Michigan Department of Civil Rights (MDCR) — es gratuito.',
-      'También puedes presentar queja ante el HUD (Housing and Urban Development) federal.',
+      'It is illegal to deny housing based on race, color, religion, national origin, sex, familial status, or disability.',
+      'Michigan also protects against discrimination based on marital status and age (Elliott-Larsen Civil Rights Act).',
+      'Document everything: save listings, emails, texts, and any communications.',
+      'File a complaint with the Michigan Department of Civil Rights (MDCR) — it\'s free.',
+      'You can also file with the federal HUD (Housing and Urban Development).',
     ],
     resources: [
-      { label: 'Michigan Dept. of Civil Rights — mdcr.michigan.gov', url: 'https://www.michigan.gov/mdcr' },
+      { label: 'Michigan Dept. of Civil Rights — michigan.gov/mdcr', url: 'https://www.michigan.gov/mdcr' },
       { label: 'HUD Fair Housing — hud.gov', url: 'https://www.hud.gov/fairhousing' },
-      { label: 'Línea gratuita HUD: 1-800-669-9777', url: null },
+      { label: 'Free HUD hotline: 1-800-669-9777', url: null },
     ],
     law: 'Elliott-Larsen Civil Rights Act / Fair Housing Act',
   },
   {
-    id: 'contrato',
-    label: 'No entiendo mi contrato',
+    id: 'contract',
+    label: "I don't understand my lease",
     icon: '📄',
     steps: [
-      'Nunca firmes algo que no entiendes — pide tiempo para leerlo con calma.',
-      'Usa CasaSegura para analizar las cláusulas principales (sección "Analizar Contrato").',
-      'Muchas universidades ofrecen Student Legal Services gratuitos para revisar contratos.',
-      'Michigan Legal Help tiene guías en español sobre qué buscar en un contrato de alquiler.',
-      'Puedes pedir al arrendador que te explique cualquier cláusula antes de firmar.',
+      'Never sign something you don\'t understand — ask for time to review it carefully.',
+      'Use CasaSegura to analyze the key clauses (see "Analyze Lease" section).',
+      'Many universities offer free Student Legal Services to review contracts.',
+      'Michigan Legal Help has plain-English guides on what to look for in a lease.',
+      'You can ask the landlord to explain any clause before you sign.',
     ],
     resources: [
       { label: 'Michigan Legal Help', url: 'https://michiganlegalhelp.org' },
-      { label: 'Student Legal Services (consulta tu universidad)', url: null },
-      { label: 'Analizar mi contrato con CasaSegura', url: '/contrato' },
+      { label: 'Student Legal Services (check your university)', url: null },
+      { label: 'Analyze my lease with CasaSegura', url: '/contrato' },
     ],
-    law: 'Tienes derecho a entender lo que firmas.',
+    law: 'You have the right to understand what you sign.',
   },
 ]
 
@@ -102,8 +102,8 @@ export default function YourRights() {
   return (
     <Layout>
       <div className="max-w-3xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-bold text-primary mb-1">Tus Derechos como Inquilino</h1>
-        <p className="text-gray-500 mb-8 text-sm">Selecciona tu situación para ver los pasos a seguir.</p>
+        <h1 className="text-2xl font-bold text-primary mb-1">Your Tenant Rights</h1>
+        <p className="text-gray-500 mb-8 text-sm">Select your situation to see what steps to take.</p>
 
         <div className="grid sm:grid-cols-2 gap-3 mb-8">
           {SITUATIONS.map((s) => (
@@ -129,13 +129,13 @@ export default function YourRights() {
                 <span className="text-2xl">{situation.icon}</span>
                 <div>
                   <h2 className="font-bold text-lg">{situation.label}</h2>
-                  <p className="text-blue-200 text-xs mt-0.5">Ley: {situation.law}</p>
+                  <p className="text-blue-200 text-xs mt-0.5">Law: {situation.law}</p>
                 </div>
               </div>
             </div>
 
             <div className="p-6">
-              <h3 className="font-bold text-gray-800 mb-4">Pasos a seguir</h3>
+              <h3 className="font-bold text-gray-800 mb-4">Steps to Take</h3>
               <ol className="space-y-3 mb-6">
                 {situation.steps.map((step, i) => (
                   <li key={i} className="flex gap-3">
@@ -148,7 +148,7 @@ export default function YourRights() {
               </ol>
 
               <div className="border-t border-gray-100 pt-5">
-                <h3 className="font-bold text-gray-800 mb-3">Recursos útiles</h3>
+                <h3 className="font-bold text-gray-800 mb-3">Helpful Resources</h3>
                 <ul className="space-y-2">
                   {situation.resources.map((r, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm">
@@ -174,7 +174,7 @@ export default function YourRights() {
         )}
 
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
-          <strong>Recuerda:</strong> Esta información es orientativa y se basa en la ley de Michigan. Para casos específicos, consulta con un abogado o con Student Legal Services de tu universidad.
+          <strong>Reminder:</strong> This information is based on Michigan law and is for general guidance only. For your specific situation, consult a lawyer or your university's Student Legal Services.
         </div>
       </div>
     </Layout>

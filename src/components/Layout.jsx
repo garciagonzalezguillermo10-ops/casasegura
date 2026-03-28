@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router-dom'
 
 const navLinks = [
-  { to: '/listing', label: 'Analizar Listing' },
-  { to: '/contrato', label: 'Analizar Contrato' },
-  { to: '/derechos', label: 'Tus Derechos' },
+  { to: '/listing', label: 'Analyze Listing' },
+  { to: '/contrato', label: 'Analyze Lease' },
+  { to: '/derechos', label: 'Your Rights' },
 ]
 
 export default function Layout({ children }) {
@@ -28,7 +28,6 @@ export default function Layout({ children }) {
             ))}
           </nav>
         </div>
-        {/* Mobile nav */}
         <div className="sm:hidden border-t border-blue-800 flex text-xs font-medium">
           {navLinks.map(({ to, label }) => (
             <Link
@@ -45,7 +44,7 @@ export default function Layout({ children }) {
       <main className="flex-1">{children}</main>
 
       <footer className="bg-gray-100 border-t border-gray-200 text-center text-xs text-gray-500 px-4 py-5">
-        CasaSegura no es un servicio legal. Siempre consulta con un abogado para decisiones legales.
+        CasaSegura is not a legal service. Always consult a lawyer for legal decisions.
       </footer>
     </div>
   )

@@ -1,35 +1,21 @@
 import { useState } from 'react'
 import Layout from '../components/Layout'
 
-const MOCK_RESULT = {
-  score: 28,
-  flags: [
-    { level: 'red', text: 'Precio muy por debajo del mercado ($400/mes) — la media en Ann Arbor es $900+' },
-    { level: 'red', text: 'El propietario dice estar en el extranjero y no puede mostrar la propiedad en persona' },
-    { level: 'red', text: 'Solicita depósito por Zelle o Western Union antes de firmar ningún contrato' },
-    { level: 'red', text: 'Presión para decidir "hoy mismo" — hay muchos interesados' },
-    { level: 'yellow', text: 'Solo contacto por email, sin número de teléfono ni nombre completo' },
-    { level: 'yellow', text: 'Fotos genéricas que podrían no ser de la propiedad real' },
-  ],
-  recommendation:
-    'Este listing tiene múltiples señales de estafa graves. La combinación de precio muy bajo, propietario ausente y solicitud de pago anticipado son los patrones más comunes de fraude de vivienda. No envíes dinero. Reporta el anuncio y busca otra opción.',
-}
-
 const flagColors = {
-  red: { bg: 'bg-red-50', border: 'border-red-200', dot: 'bg-danger', label: 'Alerta grave' },
-  yellow: { bg: 'bg-yellow-50', border: 'border-yellow-200', dot: 'bg-caution', label: 'Precaución' },
+  red: { bg: 'bg-red-50', border: 'border-red-200', dot: 'bg-danger', label: 'High Risk' },
+  yellow: { bg: 'bg-yellow-50', border: 'border-yellow-200', dot: 'bg-caution', label: 'Caution' },
   green: { bg: 'bg-green-50', border: 'border-green-200', dot: 'bg-safe', label: 'OK' },
 }
 
 function ScoreBar({ score }) {
   const color = score > 70 ? 'bg-safe' : score >= 40 ? 'bg-caution' : 'bg-danger'
-  const label = score > 70 ? 'Parece legítimo' : score >= 40 ? 'Procede con cautela' : 'Alto riesgo de estafa'
+  const label = score > 70 ? 'Looks Legitimate' : score >= 40 ? 'Proceed with Caution' : 'High Scam Risk'
   const textColor = score > 70 ? 'text-safe' : score >= 40 ? 'text-caution' : 'text-danger'
 
   return (
     <div className="mb-6">
       <div className="flex items-end justify-between mb-2">
-        <span className="text-sm font-medium text-gray-600">Score de confianza</span>
+        <span className="text-sm font-medium text-gray-600">Trust Score</span>
         <div className="text-right">
           <span className={`text-3xl font-bold ${textColor}`}>{score}</span>
           <span className="text-gray-400 text-lg">/100</span>
@@ -50,29 +36,51 @@ export default function AnalyzeListing() {
   const [text, setText] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  function analyze() {
+  async function analyze() {
     if (!text.trim()) return
     setLoading(true)
     setResult(null)
-    setTimeout(() => {
-      setResult(MOCK_RESULT)
+    setError(null)
+    try {
+      const res = await fetch('/api/analyze-listing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error || 'Analysis failed')
+      }
+      setResult(await res.json())
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Make sure the server is running with your API key.')
+    } finally {
       setLoading(false)
-    }, 1200)
+    }
   }
+
+  const recommendationStyle = result
+    ? result.score > 70
+      ? { bg: 'bg-green-50 border-green-200', title: 'text-green-700', body: 'text-green-800' }
+      : result.score >= 40
+      ? { bg: 'bg-yellow-50 border-yellow-200', title: 'text-yellow-700', body: 'text-yellow-800' }
+      : { bg: 'bg-red-50 border-red-200', title: 'text-red-700', body: 'text-red-800' }
+    : null
 
   return (
     <Layout>
       <div className="max-w-3xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-bold text-primary mb-1">Analizar un Listing</h1>
+        <h1 className="text-2xl font-bold text-primary mb-1">Analyze a Rental Listing</h1>
         <p className="text-gray-500 mb-6 text-sm">
-          Pega el texto del anuncio de Craigslist, Facebook Marketplace, Zillow u otra plataforma.
+          Paste the listing text from Craigslist, Facebook Marketplace, Zillow, or any other platform.
         </p>
 
         <textarea
           className="w-full border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           rows={10}
-          placeholder="Pega aquí el texto del listing... Por ejemplo: '2BR apartment $450/mo, owner abroad, contact via email only...'"
+          placeholder="Paste the listing text here... e.g. '2BR apartment $450/mo, owner currently abroad, contact via email only...'"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
@@ -82,30 +90,34 @@ export default function AnalyzeListing() {
           disabled={!text.trim() || loading}
           className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {loading ? 'Analizando...' : 'Analizar'}
+          {loading ? 'Analyzing...' : 'Analyze Listing'}
         </button>
 
         {loading && (
           <div className="mt-8 text-center text-gray-400 text-sm animate-pulse">
-            Buscando red flags...
+            Claude is checking for red flags...
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+            {error}
           </div>
         )}
 
         {result && (
           <div className="mt-8 space-y-6">
-            {/* Score */}
             <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
               <ScoreBar score={result.score} />
             </div>
 
-            {/* Red flags */}
             <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
               <h2 className="font-bold text-gray-800 mb-4">
-                Señales detectadas ({result.flags.length})
+                Flags Found ({result.flags?.length ?? 0})
               </h2>
               <ul className="space-y-3">
-                {result.flags.map((flag, i) => {
-                  const c = flagColors[flag.level]
+                {result.flags?.map((flag, i) => {
+                  const c = flagColors[flag.level] ?? flagColors.yellow
                   return (
                     <li
                       key={i}
@@ -124,11 +136,14 @@ export default function AnalyzeListing() {
               </ul>
             </div>
 
-            {/* Recommendation */}
-            <div className="bg-red-50 border border-red-200 rounded-xl p-6">
-              <h2 className="font-bold text-red-700 mb-2">Recomendación</h2>
-              <p className="text-sm text-red-800 leading-relaxed">{result.recommendation}</p>
-            </div>
+            {result.recommendation && (
+              <div className={`border rounded-xl p-6 ${recommendationStyle.bg}`}>
+                <h2 className={`font-bold mb-2 ${recommendationStyle.title}`}>Recommendation</h2>
+                <p className={`text-sm leading-relaxed ${recommendationStyle.body}`}>
+                  {result.recommendation}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

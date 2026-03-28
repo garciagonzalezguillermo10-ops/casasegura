@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 
 const rights = [
-  { icon: '🏠', title: 'Depósito de seguridad', desc: 'Máximo 1.5 meses de renta. Te lo deben devolver en 30 días.' },
-  { icon: '🔧', title: 'Habitabilidad', desc: 'El arrendador debe mantener la propiedad en condiciones habitables.' },
-  { icon: '🚪', title: 'Aviso de entrada', desc: 'El arrendador necesita darte 24h de aviso antes de entrar.' },
-  { icon: '⚖️', title: 'Anti-discriminación', desc: 'Nadie puede negarte vivienda por raza, religión, origen, etc.' },
+  { icon: '🏠', title: 'Security Deposit', desc: 'Max 1.5 months rent. Must be returned within 30 days.' },
+  { icon: '🔧', title: 'Habitability', desc: 'Your landlord must keep the property in livable condition.' },
+  { icon: '🚪', title: 'Entry Notice', desc: 'Landlord must give you 24 hours notice before entering.' },
+  { icon: '⚖️', title: 'Anti-Discrimination', desc: 'No one can deny housing based on race, religion, national origin, etc.' },
 ]
 
 export default function Landing() {
@@ -15,33 +15,33 @@ export default function Landing() {
       <section className="bg-primary text-white px-4 py-20 text-center">
         <h1 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">CasaSegura</h1>
         <p className="text-blue-200 text-lg sm:text-xl mb-10 max-w-xl mx-auto">
-          Tu copiloto para encontrar vivienda sin que te timen
+          Your copilot for finding housing without getting scammed
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/listing"
             className="bg-white text-primary font-bold px-8 py-4 rounded-lg text-lg hover:bg-blue-50 transition shadow-lg"
           >
-            Analizar un Listing
+            Analyze a Listing
           </Link>
           <Link
             to="/contrato"
             className="bg-transparent border-2 border-white text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-white hover:text-primary transition"
           >
-            Analizar mi Contrato
+            Analyze My Lease
           </Link>
         </div>
       </section>
 
       {/* How it works */}
       <section className="max-w-5xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-2xl font-bold text-primary mb-2">¿Cómo funciona?</h2>
-        <p className="text-gray-500 mb-10">Tres pasos para protegerte</p>
+        <h2 className="text-2xl font-bold text-primary mb-2">How It Works</h2>
+        <p className="text-gray-500 mb-10">Three steps to protect yourself</p>
         <div className="grid sm:grid-cols-3 gap-8">
           {[
-            { step: '1', title: 'Pega el texto', desc: 'Copia el anuncio de Craigslist, Facebook Marketplace o tu contrato.' },
-            { step: '2', title: 'Analizamos', desc: 'Detectamos red flags, cláusulas abusivas y comparamos con la ley de Michigan.' },
-            { step: '3', title: 'Actúa informado', desc: 'Recibe una recomendación clara y los pasos a seguir.' },
+            { step: '1', title: 'Paste the text', desc: 'Copy the listing from Craigslist, Facebook Marketplace, or paste your lease.' },
+            { step: '2', title: 'We analyze it', desc: 'Claude AI detects red flags, abusive clauses, and compares with Michigan law.' },
+            { step: '3', title: 'Act informed', desc: 'Get a clear recommendation and the next steps to take.' },
           ].map(({ step, title, desc }) => (
             <div key={step} className="flex flex-col items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold">
@@ -55,15 +55,15 @@ export default function Landing() {
       </section>
 
       {/* Rights */}
-      <section className="bg-gray-50 px-4 py-16" id="derechos">
+      <section className="bg-gray-50 px-4 py-16">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-primary">Conoce tus Derechos</h2>
-              <p className="text-gray-500 mt-1">Leyes de Michigan que te protegen como inquilino</p>
+              <h2 className="text-2xl font-bold text-primary">Know Your Rights</h2>
+              <p className="text-gray-500 mt-1">Michigan laws that protect you as a tenant</p>
             </div>
             <Link to="/derechos" className="text-sm font-semibold text-primary border border-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition">
-              Ver guía completa →
+              Full rights guide →
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

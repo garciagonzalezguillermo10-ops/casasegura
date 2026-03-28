@@ -1,99 +1,21 @@
 import { useState } from 'react'
 import Layout from '../components/Layout'
 
-const MOCK_CLAUSES = [
-  {
-    status: 'green',
-    title: 'Duración del contrato',
-    text: '12 meses, del 1 de agosto 2026 al 31 de julio 2027.',
-    explanation: 'Duración estándar para alquiler universitario en Michigan. Sin problema.',
-    verdict: 'Normal',
-  },
-  {
-    status: 'green',
-    title: 'Renta mensual',
-    text: '$875/mes, pagadero el día 1 de cada mes.',
-    explanation: 'Precio de mercado razonable para la zona. Sin cargos ocultos mencionados.',
-    verdict: 'Normal',
-  },
-  {
-    status: 'yellow',
-    title: 'Depósito de seguridad',
-    text: '$1,750 (2 meses de renta).',
-    explanation:
-      'En Michigan, el depósito máximo legal es 1.5 meses de renta. Este depósito excede ese límite — pide que lo corrijan antes de firmar.',
-    verdict: 'Problemático',
-  },
-  {
-    status: 'yellow',
-    title: 'Cargo por pago tardío',
-    text: '$80 si el pago llega después del día 5.',
-    explanation:
-      'Los cargos por mora están permitidos en Michigan, pero $80 es elevado. Intenta negociarlo a $25–$50.',
-    verdict: 'Negociable',
-  },
-  {
-    status: 'green',
-    title: 'Responsabilidad de reparaciones',
-    text: 'El arrendador es responsable de mantener la propiedad en condiciones habitables.',
-    explanation:
-      'Correcto. Michigan obliga al arrendador a mantener estándares mínimos de habitabilidad.',
-    verdict: 'Normal',
-  },
-  {
-    status: 'red',
-    title: 'Entrada sin previo aviso',
-    text: 'El arrendador puede entrar a la propiedad en cualquier momento sin notificación previa.',
-    explanation:
-      'Ilegal en Michigan. La ley (MCL 554.139) exige al menos 24 horas de aviso salvo emergencia. Esta cláusula no es válida aunque la firmes.',
-    verdict: 'Ilegal',
-  },
-  {
-    status: 'red',
-    title: 'Renuncia a derechos de habitabilidad',
-    text: 'El inquilino renuncia a cualquier reclamación relacionada con las condiciones del inmueble.',
-    explanation:
-      'Cláusula inválida bajo la ley de Michigan. No puedes renunciar a derechos básicos de habitabilidad — aunque lo firmes, no tiene efecto legal.',
-    verdict: 'Ilegal',
-  },
-  {
-    status: 'green',
-    title: 'Política de mascotas',
-    text: 'No se permiten mascotas sin autorización escrita del arrendador.',
-    explanation: 'Restricción habitual y completamente legal. Pide permiso por escrito si tienes mascota.',
-    verdict: 'Normal',
-  },
-]
-
 const statusConfig = {
-  green: {
-    dot: 'bg-safe',
-    badge: 'bg-green-100 text-green-800',
-    border: 'border-l-safe',
-  },
-  yellow: {
-    dot: 'bg-caution',
-    badge: 'bg-yellow-100 text-yellow-800',
-    border: 'border-l-caution',
-  },
-  red: {
-    dot: 'bg-danger',
-    badge: 'bg-red-100 text-red-800',
-    border: 'border-l-danger',
-  },
+  green: { dot: 'bg-safe', badge: 'bg-green-100 text-green-800', border: 'border-l-safe' },
+  yellow: { dot: 'bg-caution', badge: 'bg-yellow-100 text-yellow-800', border: 'border-l-caution' },
+  red: { dot: 'bg-danger', badge: 'bg-red-100 text-red-800', border: 'border-l-danger' },
 }
-
-const statusLabel = { green: 'Normal', yellow: 'Precaución', red: 'Alerta' }
 
 function Summary({ clauses }) {
   const counts = { green: 0, yellow: 0, red: 0 }
-  clauses.forEach((c) => counts[c.status]++)
+  clauses.forEach((c) => { if (counts[c.status] !== undefined) counts[c.status]++ })
   return (
     <div className="flex gap-4 flex-wrap mb-6">
       {[
-        { key: 'green', label: 'Sin problema', color: 'text-safe' },
-        { key: 'yellow', label: 'Precaución', color: 'text-caution' },
-        { key: 'red', label: 'Alerta', color: 'text-danger' },
+        { key: 'green', label: 'No issues', color: 'text-safe' },
+        { key: 'yellow', label: 'Caution', color: 'text-caution' },
+        { key: 'red', label: 'Alert', color: 'text-danger' },
       ].map(({ key, label, color }) => (
         <div key={key} className="bg-white border border-gray-200 rounded-lg px-4 py-3 text-center min-w-[90px]">
           <div className={`text-2xl font-bold ${color}`}>{counts[key]}</div>
@@ -108,29 +30,45 @@ export default function AnalyzeContract() {
   const [text, setText] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  function analyze() {
+  async function analyze() {
     if (!text.trim()) return
     setLoading(true)
     setResult(null)
-    setTimeout(() => {
-      setResult(MOCK_CLAUSES)
+    setError(null)
+    try {
+      const res = await fetch('/api/analyze-contract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error || 'Analysis failed')
+      }
+      setResult(await res.json())
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Make sure the server is running with your API key.')
+    } finally {
       setLoading(false)
-    }, 1400)
+    }
   }
+
+  const redCount = result?.filter((c) => c.status === 'red').length ?? 0
 
   return (
     <Layout>
       <div className="max-w-3xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-bold text-primary mb-1">Analizar Contrato de Alquiler</h1>
+        <h1 className="text-2xl font-bold text-primary mb-1">Analyze Your Lease</h1>
         <p className="text-gray-500 mb-6 text-sm">
-          Pega el texto de tu contrato. Analizamos cada cláusula importante según la ley de Michigan.
+          Paste your lease text. We'll analyze each key clause against Michigan tenant law.
         </p>
 
         <textarea
           className="w-full border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           rows={10}
-          placeholder="Pega aquí el texto de tu contrato de alquiler..."
+          placeholder="Paste your rental lease text here..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
@@ -140,23 +78,29 @@ export default function AnalyzeContract() {
           disabled={!text.trim() || loading}
           className="mt-4 w-full sm:w-auto bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-900 transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {loading ? 'Analizando...' : 'Analizar Contrato'}
+          {loading ? 'Analyzing...' : 'Analyze Lease'}
         </button>
 
         {loading && (
           <div className="mt-8 text-center text-gray-400 text-sm animate-pulse">
-            Revisando cláusulas...
+            Claude is reviewing your clauses...
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+            {error}
           </div>
         )}
 
         {result && (
           <div className="mt-8">
-            <h2 className="font-bold text-gray-800 mb-4">Resumen del contrato</h2>
+            <h2 className="font-bold text-gray-800 mb-4">Contract Summary</h2>
             <Summary clauses={result} />
 
             <div className="space-y-3">
               {result.map((clause, i) => {
-                const c = statusConfig[clause.status]
+                const c = statusConfig[clause.status] ?? statusConfig.yellow
                 return (
                   <div
                     key={i}
@@ -178,9 +122,17 @@ export default function AnalyzeContract() {
               })}
             </div>
 
-            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
-              <strong>Próximos pasos:</strong> Tienes 2 cláusulas ilegales. Antes de firmar, pide por escrito que las eliminen o corrijan. Si el arrendador se niega, consulta con Student Legal Services o Michigan Legal Help.
-            </div>
+            {redCount > 0 && (
+              <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
+                <strong>Next steps:</strong> You have {redCount} illegal or highly problematic clause{redCount > 1 ? 's' : ''}. Before signing, ask the landlord in writing to remove or correct them. If they refuse, contact Student Legal Services or Michigan Legal Help.
+              </div>
+            )}
+
+            {redCount === 0 && (
+              <div className="mt-6 bg-green-50 border border-green-200 rounded-xl p-5 text-sm text-green-800">
+                <strong>Looks good!</strong> No illegal clauses found. Review any yellow items and consider negotiating them before signing.
+              </div>
+            )}
           </div>
         )}
       </div>
