@@ -7,6 +7,10 @@ export default {
         safe: '#38a169',
         caution: '#d69e2e',
         danger: '#e53e3e',
+        brand: {
+          bg: '#f7fafc',
+          text: '#2d3748',
+        },
       },
     },
   },

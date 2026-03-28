@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
 import AnalyzeListing from './pages/AnalyzeListing'
-import AnalyzeContract from './pages/AnalyzeContract'
+import AnalyzeLease from './pages/AnalyzeLease'
 import YourRights from './pages/YourRights'
 
 export default function App() {
@@ -9,7 +9,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/listing" element={<AnalyzeListing />} />
-      <Route path="/lease" element={<AnalyzeContract />} />
+      <Route path="/lease" element={<AnalyzeLease />} />
       <Route path="/rights" element={<YourRights />} />
     </Routes>
   )
