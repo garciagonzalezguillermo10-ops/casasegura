@@ -157,7 +157,7 @@ const SITUATIONS = [
       'Read your lease: find the early termination clause, the required notice period, and any penalties.',
       'Evaluate whether your situation qualifies for a legal exception (uninhabitable, domestic violence, military service).',
       'Notify your landlord in writing with the notice period stated in your lease (usually 30–60 days).',
-      'Actively look for a subtenant to minimize the landlord's losses — in Michigan you have a duty to "mitigate damages."',
+      "Actively look for a subtenant to minimize the landlord's losses — in Michigan you have a duty to \"mitigate damages.\"",
       'Consult Student Legal Services or Legal Aid before paying any penalty.',
     ],
     resources: [
