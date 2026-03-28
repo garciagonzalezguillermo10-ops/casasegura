@@ -2,25 +2,25 @@ import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600'
-const HOW_IMAGE = 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800'
+const HOW_IMAGE  = 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800'
 
 const stats = [
   { value: '2,300+', label: 'listings scanned' },
-  { value: '94%', label: 'accuracy' },
+  { value: '94%',    label: 'accuracy' },
   { value: 'Michigan', label: 'Law compliant' },
 ]
 
 const rights = [
-  { icon: '🏠', title: 'Security Deposit', desc: 'Max 1.5 months rent. Must be returned within 30 days of move-out.' },
-  { icon: '🔧', title: 'Habitability', desc: 'Landlord must maintain heat, hot water, and safe living conditions.' },
-  { icon: '🚪', title: 'Entry Notice', desc: 'Landlord must give at least 24h notice before entering your unit.' },
+  { icon: '🏠', title: 'Security Deposit',   desc: 'Max 1.5 months rent. Must be returned within 30 days of move-out.' },
+  { icon: '🔧', title: 'Habitability',        desc: 'Landlord must maintain heat, hot water, and safe living conditions.' },
+  { icon: '🚪', title: 'Entry Notice',        desc: 'Landlord must give at least 24h notice before entering your unit.' },
   { icon: '⚖️', title: 'Anti-Discrimination', desc: 'No one can deny you housing based on race, religion, origin, and more.' },
 ]
 
 const steps = [
   { step: '1', title: 'Paste the text', desc: 'Copy a Craigslist ad, Facebook Marketplace listing, or your lease.' },
-  { step: '2', title: 'We analyze', desc: 'We detect red flags, abusive clauses, and compare with Michigan law.' },
-  { step: '3', title: 'Act informed', desc: 'Get a clear recommendation and the next steps to take.' },
+  { step: '2', title: 'We analyze',     desc: 'We detect red flags, abusive clauses, and compare with Michigan law.' },
+  { step: '3', title: 'Act informed',   desc: 'Get a clear recommendation and the next steps to take.' },
 ]
 
 export default function Landing() {

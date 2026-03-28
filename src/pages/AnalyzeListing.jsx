@@ -1,20 +1,6 @@
 import { useState } from 'react'
 import Layout from '../components/Layout'
 
-const MOCK_RESULT = {
-  score: 28,
-  flags: [
-    { level: 'red', text: 'Price far below market ($400/mo) — Ann Arbor average is $900+' },
-    { level: 'red', text: 'Owner claims to be abroad and cannot show the property in person' },
-    { level: 'red', text: 'Requests deposit via Zelle or Western Union before signing any contract' },
-    { level: 'red', text: 'Pressure to decide "today" — claims many interested parties' },
-    { level: 'yellow', text: 'Email-only contact — no phone number or full name provided' },
-    { level: 'yellow', text: 'Generic photos that may not be of the actual property' },
-  ],
-  recommendation:
-    'This listing has multiple serious scam indicators. The combination of a very low price, absent owner, and upfront payment request are the most common patterns in housing fraud. Do not send any money. Report the listing and look for another option.',
-}
-
 const flagConfig = {
   red:    { bg: 'bg-red-50',    borderColor: '#e53e3e', label: 'Critical Alert', labelColor: 'text-red-700' },
   yellow: { bg: 'bg-yellow-50', borderColor: '#d69e2e', label: 'Caution',        labelColor: 'text-yellow-700' },
@@ -25,7 +11,6 @@ function ScoreCircle({ score }) {
   const color  = score > 70 ? '#38a169' : score >= 40 ? '#d69e2e' : '#e53e3e'
   const label  = score > 70 ? 'Looks Legitimate' : score >= 40 ? 'Proceed with Caution' : 'High Scam Risk'
   const bgRing = score > 70 ? '#c6f6d5' : score >= 40 ? '#fefcbf' : '#fed7d7'
-
   return (
     <div className="flex flex-col items-center py-4">
       <div
@@ -44,18 +29,32 @@ function ScoreCircle({ score }) {
 }
 
 export default function AnalyzeListing() {
-  const [text, setText] = useState('')
+  const [text, setText]     = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError]   = useState(null)
 
-  function analyze() {
+  async function analyze() {
     if (!text.trim()) return
     setLoading(true)
     setResult(null)
-    setTimeout(() => {
-      setResult(MOCK_RESULT)
+    setError(null)
+    try {
+      const res = await fetch('/api/analyze-listing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error || 'Analysis failed')
+      }
+      setResult(await res.json())
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Make sure the server is running with your API key.')
+    } finally {
       setLoading(false)
-    }, 1200)
+    }
   }
 
   return (
@@ -84,7 +83,13 @@ export default function AnalyzeListing() {
 
         {loading && (
           <div className="mt-8 text-center text-gray-400 text-sm animate-pulse">
-            Checking for red flags...
+            Claude is checking for red flags...
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+            {error}
           </div>
         )}
 
@@ -98,11 +103,11 @@ export default function AnalyzeListing() {
             {/* Flags */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
               <h2 className="font-bold text-gray-800 mb-4">
-                Signals detected ({result.flags.length})
+                Signals detected ({result.flags?.length ?? 0})
               </h2>
               <ul className="space-y-3">
-                {result.flags.map((flag, i) => {
-                  const c = flagConfig[flag.level]
+                {result.flags?.map((flag, i) => {
+                  const c = flagConfig[flag.level] ?? flagConfig.yellow
                   return (
                     <li
                       key={i}
@@ -120,13 +125,31 @@ export default function AnalyzeListing() {
             </div>
 
             {/* Recommendation */}
-            <div
-              className="rounded-2xl p-6 border-l-4 animate-fade-in"
-              style={{ backgroundColor: '#fff5f5', borderLeftColor: '#e53e3e', borderWidth: '1px', borderLeftWidth: '4px', borderColor: '#fed7d7' }}
-            >
-              <h2 className="font-bold text-red-700 mb-2">Our Recommendation</h2>
-              <p className="text-sm text-red-800 leading-relaxed">{result.recommendation}</p>
-            </div>
+            {result.recommendation && (
+              <div
+                className="rounded-2xl p-6 border-l-4 animate-fade-in"
+                style={{
+                  backgroundColor: result.score > 70 ? '#f0fff4' : result.score >= 40 ? '#fffff0' : '#fff5f5',
+                  borderLeftColor: result.score > 70 ? '#38a169' : result.score >= 40 ? '#d69e2e' : '#e53e3e',
+                  borderWidth: '1px',
+                  borderLeftWidth: '4px',
+                  borderColor: result.score > 70 ? '#c6f6d5' : result.score >= 40 ? '#fefcbf' : '#fed7d7',
+                }}
+              >
+                <h2
+                  className="font-bold mb-2"
+                  style={{ color: result.score > 70 ? '#276749' : result.score >= 40 ? '#744210' : '#c53030' }}
+                >
+                  Our Recommendation
+                </h2>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: result.score > 70 ? '#22543d' : result.score >= 40 ? '#7b341e' : '#9b2c2c' }}
+                >
+                  {result.recommendation}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
