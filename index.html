@@ -1,65 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CasaSegura</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-  <header>
-    <nav>
-      <div class="logo">CasaSegura</div>
-      <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section id="inicio" class="hero">
-      <h1>Tu hogar, siempre protegido</h1>
-      <p>Soluciones de seguridad inteligente para tu casa.</p>
-      <a href="#servicios" class="btn">Ver servicios</a>
-    </section>
-
-    <section id="servicios" class="servicios">
-      <h2>Nuestros Servicios</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Alarmas</h3>
-          <p>Sistemas de alarma con detección en tiempo real.</p>
-        </div>
-        <div class="card">
-          <h3>Cámaras</h3>
-          <p>Videovigilancia HD con acceso remoto desde tu móvil.</p>
-        </div>
-        <div class="card">
-          <h3>Control de acceso</h3>
-          <p>Cerraduras inteligentes y acceso por huella o PIN.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contacto" class="contacto">
-      <h2>Contacto</h2>
-      <form id="form-contacto">
-        <input type="text" id="nombre" placeholder="Tu nombre" required />
-        <input type="email" id="email" placeholder="Tu email" required />
-        <textarea id="mensaje" placeholder="Tu mensaje" rows="4" required></textarea>
-        <button type="submit" class="btn">Enviar</button>
-      </form>
-      <p id="respuesta"></p>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2026 CasaSegura. Todos los derechos reservados.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CasaSegura</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
