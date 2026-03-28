@@ -151,7 +151,7 @@ const SITUATIONS = [
       'Read your lease: find the early termination clause, the required notice period, and any penalties.',
       'Evaluate whether your situation qualifies for a legal exception (uninhabitable, domestic violence, military service).',
       'Notify your landlord in writing with the notice period stated in your lease (usually 30–60 days).',
-      'Actively look for a subtenant to minimize the landlord\'s losses — in Michigan you have a duty to "mitigate damages."',
+      'Actively look for a subtenant to minimize the landlord's losses — in Michigan you have a duty to "mitigate damages."',
       'Consult Student Legal Services or Legal Aid before paying any penalty.',
     ],
     resources: [
@@ -281,7 +281,6 @@ function SituationDetail({ situation, onClose }) {
 
 export default function YourRights() {
   const [activeId, setActiveId] = useState(null)
-
   const activeSituation = SITUATIONS.find((s) => s.id === activeId)
 
   function toggle(id) {
@@ -322,20 +321,27 @@ export default function YourRights() {
 
         {/* Expanded detail */}
         {activeSituation && (
-          <SituationDetail
-            situation={activeSituation}
-            onClose={() => setActiveId(null)}
-          />
+          <SituationDetail situation={activeSituation} onClose={() => setActiveId(null)} />
         )}
 
         {/* Disclaimer */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-blue-800">
           <strong>Remember:</strong> This information is for guidance only and is based on Michigan law. For your specific situation, consult{' '}
-          <a href="https://legalaidanddefender.org" target="_blank" rel="noopener noreferrer" className="underline font-medium">
+          <a
+            href="https://legalaidanddefender.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-medium"
+          >
             Legal Aid &amp; Defender
           </a>{' '}
           or{' '}
-          <a href="https://studentlegalservices.umich.edu" target="_blank" rel="noopener noreferrer" className="underline font-medium">
+          <a
+            href="https://studentlegalservices.umich.edu"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-medium"
+          >
             Student Legal Services
           </a>
           .
