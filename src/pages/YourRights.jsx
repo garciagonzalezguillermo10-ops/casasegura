@@ -159,9 +159,6 @@ const SITUATIONS = [
       'Notify your landlord in writing with the notice period stated in your lease (usually 30–60 days).',
 
       'Actively look for a subtenant to minimize the landlord\'s losses — in Michigan you have a duty to "mitigate damages."',
-=======
-      "Actively look for a subtenant to minimize the landlord's losses — in Michigan you have a duty to \"mitigate damages.\"",
->>>>>>> b9cebb99945c97fd2ce681331a8d8d20e72d3897
       'Consult Student Legal Services or Legal Aid before paying any penalty.',
     ],
     resources: [
