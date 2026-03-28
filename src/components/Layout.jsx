@@ -9,30 +9,39 @@ const navLinks = [
 export default function Layout({ children }) {
   const { pathname } = useLocation()
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#f7fafc' }}>
-      <header className="bg-primary text-white shadow-md">
+    <div className="min-h-screen flex flex-col" style={{ fontFamily: 'Inter, system-ui, sans-serif', backgroundColor: '#f7fafc' }}>
+      <header className="bg-white border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="text-xl font-bold tracking-tight hover:opacity-80 transition flex items-center gap-2">
-            <span className="text-blue-300">🏠</span> CasaSegura
+          <Link to="/" className="text-xl font-bold tracking-tight text-gray-900 hover:opacity-75 transition">
+            CasaSegura
           </Link>
           <nav className="hidden sm:flex gap-6 text-sm font-medium">
             {navLinks.map(({ to, label }) => (
               <Link
                 key={to}
                 to={to}
-                className={`hover:text-blue-200 transition ${pathname === to ? 'text-blue-300 underline underline-offset-4' : ''}`}
+                className={`transition ${
+                  pathname === to
+                    ? 'text-gray-900 font-semibold'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 {label}
               </Link>
             ))}
           </nav>
         </div>
-        <div className="sm:hidden border-t border-blue-800 flex text-xs font-medium">
+        {/* Mobile nav */}
+        <div className="sm:hidden border-t border-gray-100 flex text-xs font-medium">
           {navLinks.map(({ to, label }) => (
             <Link
               key={to}
               to={to}
-              className={`flex-1 text-center py-2 hover:bg-blue-800 transition ${pathname === to ? 'bg-blue-800' : ''}`}
+              className={`flex-1 text-center py-2 transition ${
+                pathname === to
+                  ? 'text-gray-900 bg-gray-50 font-semibold'
+                  : 'text-gray-600 hover:bg-gray-50'
+              }`}
             >
               {label}
             </Link>
@@ -42,8 +51,7 @@ export default function Layout({ children }) {
       <main className="flex-1">{children}</main>
       <footer className="bg-white border-t border-gray-200 px-4 py-6 text-center">
         <p className="text-xs text-gray-400 max-w-2xl mx-auto leading-relaxed">
-          CasaSegura is not a legal service. Information provided is for educational purposes only and
-          based on Michigan law. Always consult a licensed attorney for legal decisions.
+          CasaSegura is not a legal service. Information provided is for educational purposes only and based on Michigan law. Always consult a licensed attorney for legal decisions.
         </p>
         <p className="text-xs text-gray-300 mt-2">
           Built for CBC Hackathon 2026 @ UMich
