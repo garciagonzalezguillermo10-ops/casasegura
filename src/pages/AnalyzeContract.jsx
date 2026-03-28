@@ -1,5 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Layout from '../components/Layout'
+import * as pdfjsLib from 'pdfjs-dist'
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url
+).toString()
 
 const statusConfig = {
   green: { dot: 'bg-safe', badge: 'bg-green-100 text-green-800', border: 'border-l-safe' },
@@ -22,6 +28,141 @@ function Summary({ clauses }) {
           <div className="text-xs text-gray-500 mt-0.5">{label}</div>
         </div>
       ))}
+    </div>
+  )
+}
+
+function PdfUploader({ onText }) {
+  const [pdfState, setPdfState] = useState('idle') // idle | reading | done | error
+  const [fileName, setFileName] = useState('')
+  const [pdfError, setPdfError] = useState('')
+  const [dragging, setDragging] = useState(false)
+  const inputRef = useRef(null)
+
+  async function readPdf(file) {
+    if (!file || file.type !== 'application/pdf') {
+      setPdfError('Please upload a valid PDF file.')
+      setPdfState('error')
+      return
+    }
+    setFileName(file.name)
+    setPdfState('reading')
+    setPdfError('')
+    try {
+      const buffer = await file.arrayBuffer()
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise
+      const pages = []
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i)
+        const content = await page.getTextContent()
+        pages.push(content.items.map((item) => item.str).join(' '))
+      }
+      const extracted = pages.join('\n\n').trim()
+      if (!extracted) {
+        setPdfError('Could not extract text from this PDF. It may be a scanned image — try copying the text manually.')
+        setPdfState('error')
+        return
+      }
+      onText(extracted)
+      setPdfState('done')
+    } catch {
+      setPdfError('Failed to read the PDF. Please try again or paste the text manually.')
+      setPdfState('error')
+    }
+  }
+
+  function handleFile(file) { readPdf(file) }
+
+  function handleDrop(e) {
+    e.preventDefault()
+    setDragging(false)
+    const file = e.dataTransfer.files?.[0]
+    if (file) handleFile(file)
+  }
+
+  return (
+    <div className="mb-5">
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={handleDrop}
+        className={`border-2 border-dashed rounded-xl px-6 py-7 text-center transition cursor-pointer ${
+          dragging
+            ? 'border-primary bg-blue-50'
+            : pdfState === 'done'
+            ? 'border-green-400 bg-green-50'
+            : pdfState === 'error'
+            ? 'border-red-300 bg-red-50'
+            : 'border-gray-300 bg-white hover:border-primary hover:bg-blue-50'
+        }`}
+        onClick={() => pdfState !== 'reading' && inputRef.current.click()}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept="application/pdf"
+          className="hidden"
+          onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); e.target.value = '' }}
+        />
+
+        {pdfState === 'idle' && (
+          <>
+            <p className="text-3xl mb-2">📄</p>
+            <p className="text-sm font-semibold text-gray-700">Drag & drop your PDF here</p>
+            <p className="text-xs text-gray-400 mt-1">or</p>
+            <button
+              type="button"
+              className="mt-2 bg-primary text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              onClick={(e) => { e.stopPropagation(); inputRef.current.click() }}
+            >
+              Upload PDF
+            </button>
+            <p className="text-xs text-gray-400 mt-3">Your file is read locally — nothing is uploaded to any server.</p>
+          </>
+        )}
+
+        {pdfState === 'reading' && (
+          <>
+            <p className="text-3xl mb-2 animate-pulse">⏳</p>
+            <p className="text-sm font-semibold text-gray-600 animate-pulse">Reading PDF...</p>
+            <p className="text-xs text-gray-400 mt-1">{fileName}</p>
+          </>
+        )}
+
+        {pdfState === 'done' && (
+          <>
+            <p className="text-3xl mb-2">✅</p>
+            <p className="text-sm font-semibold text-green-700">{fileName}</p>
+            <p className="text-xs text-green-600 mt-1">Text extracted — ready to analyze</p>
+            <button
+              type="button"
+              className="mt-3 text-xs text-gray-400 hover:text-gray-600 underline"
+              onClick={(e) => { e.stopPropagation(); setPdfState('idle'); setFileName(''); onText('') }}
+            >
+              Remove file
+            </button>
+          </>
+        )}
+
+        {pdfState === 'error' && (
+          <>
+            <p className="text-3xl mb-2">❌</p>
+            <p className="text-sm font-semibold text-red-600">Could not read the PDF</p>
+            <p className="text-xs text-red-500 mt-1">{pdfError}</p>
+            <button
+              type="button"
+              className="mt-3 text-xs text-primary hover:underline"
+              onClick={(e) => { e.stopPropagation(); setPdfState('idle'); setFileName(''); setPdfError('') }}
+            >
+              Try again
+            </button>
+          </>
+        )}
+      </div>
+
+      {pdfState === 'idle' && (
+        <p className="text-xs text-gray-400 text-center mt-2">— or paste the text directly below —</p>
+      )}
     </div>
   )
 }
@@ -64,6 +205,8 @@ export default function AnalyzeContract() {
         <p className="text-gray-500 mb-6 text-sm">
           Paste your lease text. We'll analyze each key clause against Michigan tenant law.
         </p>
+
+        <PdfUploader onText={(t) => { setText(t); setResult(null) }} />
 
         <textarea
           className="w-full border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
